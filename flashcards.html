@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Flashcards · Mastery Levels | Adjustable Session Size</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2f3f 0%, #0f212e 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .game-container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(2px);
+            border-radius: 2.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            background: #071e2bcc;
+            padding: 0.8rem 1.2rem;
+            border-radius: 2rem;
+        }
+
+        .stat {
+            font-size: 0.85rem;
+            color: #ffdd99;
+            font-weight: 500;
+        }
+
+        .stat span {
+            font-weight: 700;
+            color: white;
+            background: #e67e22;
+            padding: 0.2rem 0.6rem;
+            border-radius: 2rem;
+            margin-left: 0.3rem;
+        }
+
+        .session-settings {
+            background: #071e2b99;
+            border-radius: 2rem;
+            padding: 0.6rem 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .size-selector {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .size-btn {
+            background: #2c5f7a;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            color: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.1s;
+        }
+
+        .size-btn.active {
+            background: #e67e22;
+            box-shadow: 0 0 0 1px white;
+        }
+
+        .flashcard {
+            background: #fffef7;
+            border-radius: 2rem;
+            box-shadow: 0 30px 35px -15px rgba(0,0,0,0.4);
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 1.2rem;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            transform: scale(1.01);
+        }
+
+        .card-front, .card-back {
+            width: 100%;
+        }
+
+        .front-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: #eef2fa;
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 60px;
+            color: #2c6b8f;
+            margin-bottom: 1rem;
+        }
+
+        .infinitive {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1f4e6e;
+            margin-bottom: 1rem;
+            word-break: break-word;
+        }
+
+        .card-back p {
+            font-size: 1.1rem;
+            margin: 0.6rem 0;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 0.5rem 0;
+        }
+
+        .form-text {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .audio-icon {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0 0.3rem;
+            border-radius: 30px;
+            color: #2c6b8f;
+        }
+
+        .audio-icon:hover {
+            background: #e2edf5;
+        }
+
+        .meaning {
+            font-style: italic;
+            color: #2d6a4f;
+            background: #f0f5f9;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            margin-top: 0.5rem;
+        }
+
+        .flip-hint {
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: #8aaec0;
+        }
+
+        .answer-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0 0.8rem;
+        }
+
+        .btn-correct {
+            background: #2e7d64;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-wrong {
+            background: #9e4244;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-correct:hover, .btn-wrong:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin: 0.8rem 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: #2c5f7a;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .due-counter {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #b9d9f0;
+            margin-top: 0.5rem;
+        }
+
+        .level-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #e67e22;
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container" id="app">
+    <div class="stats-bar">
+        <div class="stat">📚 Total: <span id="totalCount">0</span></div>
+        <div class="stat">⭐ Mastered (L2): <span id="masteredCount">0</span></div>
+        <div class="stat">⏰ Due today: <span id="dueCount">0</span></div>
+    </div>
+
+    <div class="session-settings">
+        <span style="color:#ffdd99;">📏 Cards per session:</span>
+        <div class="size-selector">
+            <button data-size="10" class="size-btn">10</button>
+            <button data-size="15" class="size-btn active">15</button>
+            <button data-size="20" class="size-btn">20</button>
+        </div>
+    </div>
+
+    <div class="flashcard" id="flashcard">
+        <div id="cardFront" class="card-front">
+            <div class="front-label">INFINITIVE</div>
+            <div class="infinitive" id="infinitiveDisplay">loading...</div>
+            <div class="flip-hint">👇 tap card or press FLIP 👇</div>
+        </div>
+        <div id="cardBack" class="card-back" style="display: none;">
+            <div class="form-row">
+                <span class="form-text" id="pastDisplay"></span>
+                <button class="audio-icon" id="pastAudioBtn" title="">🔊</button>
+            </div>
+            <div class="form-row">
+                <span class="form-text" id="ppDisplay"></span>
+                <button class="audio-icon" id="ppAudioBtn" title="">🔊</button>
+            </div>
+            <div class="meaning" id="meaningDisplay"></div>
+            <div class="flip-hint">👆 tap to flip back</div>
+        </div>
+        <div id="levelBadge" class="level-badge"></div>
+    </div>
+
+    <div class="answer-buttons" id="answerButtons" style="display: none;">
+        <button class="btn-correct" id="correctBtn">✅ Correct (upgrade)</button>
+        <button class="btn-wrong" id="wrongBtn">❌ Wrong (reset to L0)</button>
+    </div>
+
+    <div class="action-buttons">
+        <button class="btn-secondary" id="flipBtn">🔄 Flip</button>
+        <button class="btn-secondary" id="nextSessionBtn">📅 Start / Resume session</button>
+        <button class="btn-secondary" id="resetProgressBtn">🗑️ Reset all</button>
+    </div>
+    <div class="due-counter" id="dueMessage"></div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // VERB DATABASE (same 97 verbs)
+    // --------------------------------------------------------------
+    const verbsData = [
+        { inf: "bet", past: "bet", pp: "bet", meaning: "to risk money; to be certain", pronInf: "/bɛt/", pronPast: "/bɛt/", pronPP: "/bɛt/" },
+        { inf: "burst", past: "burst", pp: "burst", meaning: "to break open suddenly", pronInf: "/bɜːrst/", pronPast: "/bɜːrst/", pronPP: "/bɜːrst/" },
+        { inf: "cost", past: "cost", pp: "cost", meaning: "to require payment", pronInf: "/kɒst/", pronPast: "/kɒst/", pronPP: "/kɒst/" },
+        { inf: "cut", past: "cut", pp: "cut", meaning: "to divide with a tool", pronInf: "/kʌt/", pronPast: "/kʌt/", pronPP: "/kʌt/" },
+        { inf: "hit", past: "hit", pp: "hit", meaning: "to strike; to affect", pronInf: "/hɪt/", pronPast: "/hɪt/", pronPP: "/hɪt/" },
+        { inf: "hurt", past: "hurt", pp: "hurt", meaning: "to cause pain", pronInf: "/hɜːrt/", pronPast: "/hɜːrt/", pronPP: "/hɜːrt/" },
+        { inf: "let", past: "let", pp: "let", meaning: "to allow; to rent", pronInf: "/lɛt/", pronPast: "/lɛt/", pronPP: "/lɛt/" },
+        { inf: "put", past: "put", pp: "put", meaning: "to place", pronInf: "/pʊt/", pronPast: "/pʊt/", pronPP: "/pʊt/" },
+        { inf: "read", past: "read", pp: "read", meaning: "to interpret written words", pronInf: "/riːd/", pronPast: "/rɛd/", pronPP: "/rɛd/" },
+        { inf: "set", past: "set", pp: "set", meaning: "to put in place", pronInf: "/sɛt/", pronPast: "/sɛt/", pronPP: "/sɛt/" },
+        { inf: "shut", past: "shut", pp: "shut", meaning: "to close firmly", pronInf: "/ʃʌt/", pronPast: "/ʃʌt/", pronPP: "/ʃʌt/" },
+        { inf: "beat", past: "beat", pp: "beaten", meaning: "to strike repeatedly; defeat", pronInf: "/biːt/", pronPast: "/biːt/", pronPP: "/ˈbiːtən/" },
+        { inf: "come", past: "came", pp: "come", meaning: "to move toward; arrive", pronInf: "/kʌm/", pronPast: "/keɪm/", pronPP: "/kʌm/" },
+        { inf: "run", past: "ran", pp: "run", meaning: "to move swiftly", pronInf: "/rʌn/", pronPast: "/ræn/", pronPP: "/rʌn/" },
+        { inf: "become", past: "became", pp: "become", meaning: "to turn into", pronInf: "/bɪˈkʌm/", pronPast: "/bɪˈkeɪm/", pronPP: "/bɪˈkʌm/" },
+        { inf: "bring", past: "brought", pp: "brought", meaning: "to carry", pronInf: "/brɪŋ/", pronPast: "/brɔːt/", pronPP: "/brɔːt/" },
+        { inf: "build", past: "built", pp: "built", meaning: "to construct", pronInf: "/bɪld/", pronPast: "/bɪlt/", pronPP: "/bɪlt/" },
+        { inf: "buy", past: "bought", pp: "bought", meaning: "to purchase", pronInf: "/baɪ/", pronPast: "/bɔːt/", pronPP: "/bɔːt/" },
+        { inf: "catch", past: "caught", pp: "caught", meaning: "to capture", pronInf: "/kætʃ/", pronPast: "/kɔːt/", pronPP: "/kɔːt/" },
+        { inf: "deal", past: "dealt", pp: "dealt", meaning: "to distribute; handle", pronInf: "/diːl/", pronPast: "/dɛlt/", pronPP: "/dɛlt/" },
+        { inf: "feed", past: "fed", pp: "fed", meaning: "to give food", pronInf: "/fiːd/", pronPast: "/fɛd/", pronPP: "/fɛd/" },
+        { inf: "feel", past: "felt", pp: "felt", meaning: "to experience touch/emotion", pronInf: "/fiːl/", pronPast: "/fɛlt/", pronPP: "/fɛlt/" },
+        { inf: "fight", past: "fought", pp: "fought", meaning: "to struggle", pronInf: "/faɪt/", pronPast: "/fɔːt/", pronPP: "/fɔːt/" },
+        { inf: "find", past: "found", pp: "found", meaning: "to discover", pronInf: "/faɪnd/", pronPast: "/faʊnd/", pronPP: "/faʊnd/" },
+        { inf: "get", past: "got", pp: "got", meaning: "to obtain", pronInf: "/ɡɛt/", pronPast: "/ɡɒt/", pronPP: "/ɡɒt/" },
+        { inf: "hang", past: "hung", pp: "hung", meaning: "to suspend", pronInf: "/hæŋ/", pronPast: "/hʌŋ/", pronPP: "/hʌŋ/" },
+        { inf: "have", past: "had", pp: "had", meaning: "to possess", pronInf: "/hæv/", pronPast: "/hæd/", pronPP: "/hæd/" },
+        { inf: "hear", past: "heard", pp: "heard", meaning: "to perceive sound", pronInf: "/hɪər/", pronPast: "/hɜːd/", pronPP: "/hɜːd/" },
+        { inf: "hold", past: "held", pp: "held", meaning: "to grasp", pronInf: "/hoʊld/", pronPast: "/hɛld/", pronPP: "/hɛld/" },
+        { inf: "keep", past: "kept", pp: "kept", meaning: "to retain", pronInf: "/kiːp/", pronPast: "/kɛpt/", pronPP: "/kɛpt/" },
+        { inf: "lay", past: "laid", pp: "laid", meaning: "to put down", pronInf: "/leɪ/", pronPast: "/leɪd/", pronPP: "/leɪd/" },
+        { inf: "lead", past: "led", pp: "led", meaning: "to guide", pronInf: "/liːd/", pronPast: "/lɛd/", pronPP: "/lɛd/" },
+        { inf: "leave", past: "left", pp: "left", meaning: "to depart", pronInf: "/liːv/", pronPast: "/lɛft/", pronPP: "/lɛft/" },
+        { inf: "lend", past: "lent", pp: "lent", meaning: "to give temporarily", pronInf: "/lɛnd/", pronPast: "/lɛnt/", pronPP: "/lɛnt/" },
+        { inf: "light", past: "lit", pp: "lit", meaning: "to ignite", pronInf: "/laɪt/", pronPast: "/lɪt/", pronPP: "/lɪt/" },
+        { inf: "lose", past: "lost", pp: "lost", meaning: "to misplace", pronInf: "/luːz/", pronPast: "/lɒst/", pronPP: "/lɒst/" },
+        { inf: "make", past: "made", pp: "made", meaning: "to create", pronInf: "/meɪk/", pronPast: "/meɪd/", pronPP: "/meɪd/" },
+        { inf: "mean", past: "meant", pp: "meant", meaning: "to signify", pronInf: "/miːn/", pronPast: "/mɛnt/", pronPP: "/mɛnt/" },
+        { inf: "meet", past: "met", pp: "met", meaning: "to encounter", pronInf: "/miːt/", pronPast: "/mɛt/", pronPP: "/mɛt/" },
+        { inf: "pay", past: "paid", pp: "paid", meaning: "to give money", pronInf: "/peɪ/", pronPast: "/peɪd/", pronPP: "/peɪd/" },
+        { inf: "say", past: "said", pp: "said", meaning: "to speak", pronInf: "/seɪ/", pronPast: "/sɛd/", pronPP: "/sɛd/" },
+        { inf: "sell", past: "sold", pp: "sold", meaning: "to exchange for money", pronInf: "/sɛl/", pronPast: "/soʊld/", pronPP: "/soʊld/" },
+        { inf: "send", past: "sent", pp: "sent", meaning: "to cause to go", pronInf: "/sɛnd/", pronPast: "/sɛnt/", pronPP: "/sɛnt/" },
+        { inf: "shine", past: "shone", pp: "shone", meaning: "to emit light", pronInf: "/ʃaɪn/", pronPast: "/ʃɒn/", pronPP: "/ʃɒn/" },
+        { inf: "shoot", past: "shot", pp: "shot", meaning: "to fire a weapon", pronInf: "/ʃuːt/", pronPast: "/ʃɒt/", pronPP: "/ʃɒt/" },
+        { inf: "sit", past: "sat", pp: "sat", meaning: "to be seated", pronInf: "/sɪt/", pronPast: "/sæt/", pronPP: "/sæt/" },
+        { inf: "sleep", past: "slept", pp: "slept", meaning: "to rest", pronInf: "/sliːp/", pronPast: "/slɛpt/", pronPP: "/slɛpt/" },
+        { inf: "slide", past: "slid", pp: "slid", meaning: "to move smoothly", pronInf: "/slaɪd/", pronPast: "/slɪd/", pronPP: "/slɪd/" },
+        { inf: "spend", past: "spent", pp: "spent", meaning: "to use money/time", pronInf: "/spɛnd/", pronPast: "/spɛnt/", pronPP: "/spɛnt/" },
+        { inf: "stand", past: "stood", pp: "stood", meaning: "to be upright", pronInf: "/stænd/", pronPast: "/stʊd/", pronPP: "/stʊd/" },
+        { inf: "stick", past: "stuck", pp: "stuck", meaning: "to attach", pronInf: "/stɪk/", pronPast: "/stʌk/", pronPP: "/stʌk/" },
+        { inf: "sweep", past: "swept", pp: "swept", meaning: "to clean with broom", pronInf: "/swiːp/", pronPast: "/swɛpt/", pronPP: "/swɛpt/" },
+        { inf: "swing", past: "swung", pp: "swung", meaning: "to move back/forth", pronInf: "/swɪŋ/", pronPast: "/swʌŋ/", pronPP: "/swʌŋ/" },
+        { inf: "teach", past: "taught", pp: "taught", meaning: "to instruct", pronInf: "/tiːtʃ/", pronPast: "/tɔːt/", pronPP: "/tɔːt/" },
+        { inf: "tell", past: "told", pp: "told", meaning: "to narrate", pronInf: "/tɛl/", pronPast: "/toʊld/", pronPP: "/toʊld/" },
+        { inf: "think", past: "thought", pp: "thought", meaning: "to have a thought", pronInf: "/θɪŋk/", pronPast: "/θɔːt/", pronPP: "/θɔːt/" },
+        { inf: "understand", past: "understood", pp: "understood", meaning: "to comprehend", pronInf: "/ˌʌndərˈstænd/", pronPast: "/ˌʌndərˈstʊd/", pronPP: "/ˌʌndərˈstʊd/" },
+        { inf: "win", past: "won", pp: "won", meaning: "to be victorious", pronInf: "/wɪn/", pronPast: "/wʌn/", pronPP: "/wʌn/" },
+        { inf: "be", past: "was/were", pp: "been", meaning: "to exist", pronInf: "/biː/", pronPast: "/wɒz/ /wɜːr/", pronPP: "/biːn/" },
+        { inf: "begin", past: "began", pp: "begun", meaning: "to start", pronInf: "/bɪˈɡɪn/", pronPast: "/bɪˈɡæn/", pronPP: "/bɪˈɡʌn/" },
+        { inf: "blow", past: "blew", pp: "blown", meaning: "to move air", pronInf: "/bloʊ/", pronPast: "/bluː/", pronPP: "/bloʊn/" },
+        { inf: "break", past: "broke", pp: "broken", meaning: "to separate", pronInf: "/breɪk/", pronPast: "/broʊk/", pronPP: "/ˈbroʊkən/" },
+        { inf: "choose", past: "chose", pp: "chosen", meaning: "to select", pronInf: "/tʃuːz/", pronPast: "/tʃoʊz/", pronPP: "/ˈtʃoʊzən/" },
+        { inf: "do", past: "did", pp: "done", meaning: "to perform", pronInf: "/duː/", pronPast: "/dɪd/", pronPP: "/dʌn/" },
+        { inf: "draw", past: "drew", pp: "drawn", meaning: "to sketch; pull", pronInf: "/drɔː/", pronPast: "/druː/", pronPP: "/drɔːn/" },
+        { inf: "drink", past: "drank", pp: "drunk", meaning: "to swallow liquid", pronInf: "/drɪŋk/", pronPast: "/dræŋk/", pronPP: "/drʌŋk/" },
+        { inf: "drive", past: "drove", pp: "driven", meaning: "to operate vehicle", pronInf: "/draɪv/", pronPast: "/droʊv/", pronPP: "/ˈdrɪvən/" },
+        { inf: "eat", past: "ate", pp: "eaten", meaning: "to consume food", pronInf: "/iːt/", pronPast: "/eɪt/", pronPP: "/ˈiːtən/" },
+        { inf: "fall", past: "fell", pp: "fallen", meaning: "to drop down", pronInf: "/fɔːl/", pronPast: "/fɛl/", pronPP: "/ˈfɔːlən/" },
+        { inf: "fly", past: "flew", pp: "flown", meaning: "to move through air", pronInf: "/flaɪ/", pronPast: "/fluː/", pronPP: "/floʊn/" },
+        { inf: "forget", past: "forgot", pp: "forgotten", meaning: "to fail to remember", pronInf: "/fərˈɡɛt/", pronPast: "/fərˈɡɒt/", pronPP: "/fərˈɡɒtən/" },
+        { inf: "freeze", past: "froze", pp: "frozen", meaning: "to turn to ice", pronInf: "/friːz/", pronPast: "/froʊz/", pronPP: "/ˈfroʊzən/" },
+        { inf: "give", past: "gave", pp: "given", meaning: "to hand over", pronInf: "/ɡɪv/", pronPast: "/ɡeɪv/", pronPP: "/ˈɡɪvən/" },
+        { inf: "go", past: "went", pp: "gone", meaning: "to move", pronInf: "/ɡoʊ/", pronPast: "/wɛnt/", pronPP: "/ɡɒn/" },
+        { inf: "grow", past: "grew", pp: "grown", meaning: "to increase size", pronInf: "/ɡroʊ/", pronPast: "/ɡruː/", pronPP: "/ɡroʊn/" },
+        { inf: "hide", past: "hid", pp: "hidden", meaning: "to conceal", pronInf: "/haɪd/", pronPast: "/hɪd/", pronPP: "/ˈhɪdən/" },
+        { inf: "know", past: "knew", pp: "known", meaning: "to have knowledge", pronInf: "/noʊ/", pronPast: "/njuː/", pronPP: "/noʊn/" },
+        { inf: "lie", past: "lay", pp: "lain", meaning: "to recline", pronInf: "/laɪ/", pronPast: "/leɪ/", pronPP: "/leɪn/" },
+        { inf: "ride", past: "rode", pp: "ridden", meaning: "to sit on (bike/horse)", pronInf: "/raɪd/", pronPast: "/roʊd/", pronPP: "/ˈrɪdən/" },
+        { inf: "ring", past: "rang", pp: "rung", meaning: "to sound a bell", pronInf: "/rɪŋ/", pronPast: "/ræŋ/", pronPP: "/rʌŋ/" },
+        { inf: "rise", past: "rose", pp: "risen", meaning: "to go upward", pronInf: "/raɪz/", pronPast: "/roʊz/", pronPP: "/ˈrɪzən/" },
+        { inf: "see", past: "saw", pp: "seen", meaning: "to perceive with eyes", pronInf: "/siː/", pronPast: "/sɔː/", pronPP: "/siːn/" },
+        { inf: "shake", past: "shook", pp: "shaken", meaning: "to tremble", pronInf: "/ʃeɪk/", pronPast: "/ʃʊk/", pronPP: "/ˈʃeɪkən/" },
+        { inf: "show", past: "showed", pp: "shown", meaning: "to display", pronInf: "/ʃoʊ/", pronPast: "/ʃoʊd/", pronPP: "/ʃoʊn/" },
+        { inf: "sing", past: "sang", pp: "sung", meaning: "to produce music", pronInf: "/sɪŋ/", pronPast: "/sæŋ/", pronPP: "/sʌŋ/" },
+        { inf: "sink", past: "sank", pp: "sunk", meaning: "to go down", pronInf: "/sɪŋk/", pronPast: "/sæŋk/", pronPP: "/sʌŋk/" },
+        { inf: "speak", past: "spoke", pp: "spoken", meaning: "to talk", pronInf: "/spiːk/", pronPast: "/spoʊk/", pronPP: "/ˈspoʊkən/" },
+        { inf: "spring", past: "sprang", pp: "sprung", meaning: "to jump", pronInf: "/sprɪŋ/", pronPast: "/spræŋ/", pronPP: "/sprʌŋ/" },
+        { inf: "steal", past: "stole", pp: "stolen", meaning: "to take dishonestly", pronInf: "/stiːl/", pronPast: "/stoʊl/", pronPP: "/ˈstoʊlən/" },
+        { inf: "swim", past: "swam", pp: "swum", meaning: "to move in water", pronInf: "/swɪm/", pronPast: "/swæm/", pronPP: "/swʌm/" },
+        { inf: "take", past: "took", pp: "taken", meaning: "to grab", pronInf: "/teɪk/", pronPast: "/tʊk/", pronPP: "/ˈteɪkən/" },
+        { inf: "tear", past: "tore", pp: "torn", meaning: "to rip", pronInf: "/tɛr/", pronPast: "/tɔːr/", pronPP: "/tɔːrn/" },
+        { inf: "throw", past: "threw", pp: "thrown", meaning: "to propel", pronInf: "/θroʊ/", pronPast: "/θruː/", pronPP: "/θroʊn/" },
+        { inf: "wake", past: "woke", pp: "woken", meaning: "to stop sleeping", pronInf: "/weɪk/", pronPast: "/woʊk/", pronPP: "/ˈwoʊkən/" },
+        { inf: "wear", past: "wore", pp: "worn", meaning: "to have clothing", pronInf: "/wɛr/", pronPast: "/wɔːr/", pronPP: "/wɔːrn/" },
+        { inf: "weave", past: "wove", pp: "woven", meaning: "to interlace", pronInf: "/wiːv/", pronPast: "/woʊv/", pronPP: "/ˈwoʊvən/" },
+        { inf: "write", past: "wrote", pp: "written", meaning: "to inscribe", pronInf: "/raɪt/", pronPast: "/roʊt/", pronPP: "/ˈrɪtən/" }
+    ];
+
+    const STORAGE_KEY = "irregular_verbs_mastery_v2";
+    const INTERVALS = [1, 3, 7]; // days for levels 0,1,2
+
+    let cards = [];
+    let sessionQueue = [];       // array of card indices for current session (limited by size)
+    let currentSessionIndex = 0;
+    let currentCardId = null;
+    let isFlipped = false;
+    let sessionSize = 15;        // default
+
+    // DOM elements
+    const totalSpan = document.getElementById('totalCount');
+    const masteredSpan = document.getElementById('masteredCount');
+    const dueSpan = document.getElementById('dueCount');
+    const dueMessageDiv = document.getElementById('dueMessage');
+    const flashcardDiv = document.getElementById('flashcard');
+    const frontDiv = document.getElementById('cardFront');
+    const backDiv = document.getElementById('cardBack');
+    const infinitiveSpan = document.getElementById('infinitiveDisplay');
+    const pastSpan = document.getElementById('pastDisplay');
+    const ppSpan = document.getElementById('ppDisplay');
+    const meaningSpan = document.getElementById('meaningDisplay');
+    const levelBadge = document.getElementById('levelBadge');
+    const answerButtons = document.getElementById('answerButtons');
+    const pastAudioBtn = document.getElementById('pastAudioBtn');
+    const ppAudioBtn = document.getElementById('ppAudioBtn');
+    const correctBtn = document.getElementById('correctBtn');
+    const wrongBtn = document.getElementById('wrongBtn');
+    const flipBtn = document.getElementById('flipBtn');
+    const nextSessionBtn = document.getElementById('nextSessionBtn');
+    const resetBtn = document.getElementById('resetProgressBtn');
+    const sizeBtns = document.querySelectorAll('.size-btn');
+
+    function speak(word) {
+        if (!window.speechSynthesis) return;
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.85;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function initData() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        const now = Date.now();
+        if (stored) {
+            const saved = JSON.parse(stored);
+            if (saved.cards && saved.cards.length === verbsData.length) {
+                cards = saved.cards;
+                for (let i = 0; i < cards.length; i++) {
+                    if (cards[i].level === undefined) cards[i].level = 0;
+                    if (!cards[i].nextReviewDate) cards[i].nextReviewDate = now;
+                }
+                saveToLocal();
+                return;
+            }
+        }
+        cards = verbsData.map((verb, idx) => ({
+            id: idx,
+            verb: verb,
+            level: 0,
+            nextReviewDate: now
+        }));
+        saveToLocal();
+    }
+
+    function saveToLocal() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ cards: cards }));
+    }
+
+    function updateStats() {
+        const total = cards.length;
+        const mastered = cards.filter(c => c.level === 2).length;
+        const now = Date.now();
+        const due = cards.filter(c => c.nextReviewDate <= now).length;
+        totalSpan.innerText = total;
+        masteredSpan.innerText = mastered;
+        dueSpan.innerText = due;
+        return due;
+    }
+
+    // Build session queue: get due cards, shuffle, limit to sessionSize
+    function buildSessionQueue() {
+        const now = Date.now();
+        const dueIndices = [];
+        for (let i = 0; i < cards.length; i++) {
+            if (cards[i].nextReviewDate <= now) {
+                dueIndices.push(i);
+            }
+        }
+        // shuffle
+        for (let i = dueIndices.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [dueIndices[i], dueIndices[j]] = [dueIndices[j], dueIndices[i]];
+        }
+        // limit to sessionSize
+        sessionQueue = dueIndices.slice(0, sessionSize);
+        currentSessionIndex = 0;
+        return sessionQueue.length;
+    }
+
+    function loadCardByIndex(queueIndex) {
+        if (queueIndex >= sessionQueue.length) {
+            dueMessageDiv.innerText = "✅ Session complete! Great job. Click 'Start / Resume' for next session.";
+            answerButtons.style.display = 'none';
+            frontDiv.style.display = 'block';
+            backDiv.style.display = 'none';
+            infinitiveSpan.innerText = "🎉 Session finished! 🎉";
+            levelBadge.innerText = "";
+            currentCardId = null;
+            return;
+        }
+        const cardIdx = sessionQueue[queueIndex];
+        const card = cards[cardIdx];
+        currentCardId = card.id;
+        const v = card.verb;
+        infinitiveSpan.innerText = v.inf;
+        pastSpan.innerText = v.past;
+        ppSpan.innerText = v.pp;
+        meaningSpan.innerText = v.meaning;
+        pastAudioBtn.title = v.pronPast;
+        ppAudioBtn.title = v.pronPP;
+        pastAudioBtn.onclick = (e) => { e.stopPropagation(); speak(v.past); };
+        ppAudioBtn.onclick = (e) => { e.stopPropagation(); speak(v.pp); };
+        const levelNames = ['🟡 Level 0 (new)', '🟢 Level 1 (learning)', '🔵 Level 2 (mastered)'];
+        levelBadge.innerText = levelNames[card.level];
+        setFlipState(false);
+        answerButtons.style.display = 'block';
+        dueMessageDiv.innerText = `📚 Session: ${queueIndex+1} / ${sessionQueue.length} cards`;
+    }
+
+    function setFlipState(flipped) {
+        isFlipped = flipped;
+        frontDiv.style.display = isFlipped ? 'none' : 'block';
+        backDiv.style.display = isFlipped ? 'block' : 'none';
+    }
+
+    function flipCard() {
+        setFlipState(!isFlipped);
+    }
+
+    function recordAnswer(correct) {
+        if (currentCardId === null) return;
+        const cardIndex = cards.findIndex(c => c.id === currentCardId);
+        if (cardIndex === -1) return;
+        const card = cards[cardIndex];
+        const now = Date.now();
+        if (correct) {
+            if (card.level < 2) card.level++;
+            const intervalDays = INTERVALS[card.level];
+            card.nextReviewDate = now + intervalDays * 24 * 60 * 60 * 1000;
+        } else {
+            card.level = 0;
+            card.nextReviewDate = now + INTERVALS[0] * 24 * 60 * 60 * 1000;
+        }
+        saveToLocal();
+        currentSessionIndex++;
+        if (currentSessionIndex < sessionQueue.length) {
+            loadCardByIndex(currentSessionIndex);
+        } else {
+            updateStats();
+            dueMessageDiv.innerText = "✅ Session complete! Click 'Start / Resume' for next due cards.";
+            answerButtons.style.display = 'none';
+            frontDiv.style.display = 'block';
+            backDiv.style.display = 'none';
+            infinitiveSpan.innerText = "🏆 Excellent!";
+            levelBadge.innerText = "";
+            currentCardId = null;
+        }
+        updateStats();
+    }
+
+    function startOrResumeSession() {
+        const dueCount = buildSessionQueue();
+        if (dueCount === 0) {
+            dueMessageDiv.innerText = "🎉 No cards due! Come back later or reset progress.";
+            answerButtons.style.display = 'none';
+            frontDiv.style.display = 'block';
+            backDiv.style.display = 'none';
+            infinitiveSpan.innerText = "✨ All caught up! ✨";
+            levelBadge.innerText = "";
+            return;
+        }
+        currentSessionIndex = 0;
+        loadCardByIndex(0);
+        updateStats();
+    }
+
+    function resetAllProgress() {
+        if (confirm("⚠️ Reset all progress? All verbs will become Level 0 and due today.")) {
+            const now = Date.now();
+            cards = cards.map(card => ({
+                ...card,
+                level: 0,
+                nextReviewDate: now
+            }));
+            saveToLocal();
+            updateStats();
+            startOrResumeSession();
+        }
+    }
+
+    function setSessionSize(size) {
+        sessionSize = size;
+        sizeBtns.forEach(btn => {
+            if (parseInt(btn.dataset.size) === size) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        // optional: update message
+        dueMessageDiv.innerText = `Session size set to ${size}. Press "Start / Resume" to begin.`;
+    }
+
+    // Event listeners
+    flipBtn.addEventListener('click', flipCard);
+    flashcardDiv.addEventListener('click', (e) => {
+        if (e.target.closest('.audio-icon')) return;
+        flipCard();
+    });
+    correctBtn.addEventListener('click', () => recordAnswer(true));
+    wrongBtn.addEventListener('click', () => recordAnswer(false));
+    nextSessionBtn.addEventListener('click', startOrResumeSession);
+    resetBtn.addEventListener('click', resetAllProgress);
+    sizeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const size = parseInt(btn.dataset.size);
+            setSessionSize(size);
+        });
+    });
+
+    // Initialize everything
+    initData();
+    updateStats();
+    setSessionSize(15);
+    startOrResumeSession();
+</script>
+</body>
+</html>

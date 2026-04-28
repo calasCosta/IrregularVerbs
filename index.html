@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Irregular Verbs · Complete Reference + Flashcards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f4f9ff 0%, #e9f0fa 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1.5rem;
+            color: #1a2c3e;
+        }
+
+        .master-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1f4870, #2b6c94);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero .sub {
+            font-size: 1rem;
+            color: #2c5a7a;
+            margin-top: 0.5rem;
+        }
+
+        .flashcard-btn-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-flashcard {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 3rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-flashcard:hover {
+            background: #f39c12;
+            transform: translateY(-2px);
+        }
+
+        .strategy-card {
+            background: rgba(255,255,255,0.8);
+            border-radius: 1.5rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            backdrop-filter: blur(2px);
+        }
+
+        .tip-badge {
+            background: #d9eaf5;
+            border-radius: 40px;
+            padding: 0.3rem 0.9rem;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .groups-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .group-card {
+            background: white;
+            border-radius: 1.75rem;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .group-header {
+            padding: 1rem 1.8rem;
+            background: #f1f9ff;
+            border-bottom: 2px solid #cde3f0;
+        }
+
+        .group-header h2 {
+            font-size: 1.5rem;
+            color: #1f4e6e;
+            display: inline-block;
+            background: #eef4fa;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+        }
+
+        .group-desc {
+            font-size: 0.85rem;
+            color: #3c6e8f;
+            margin-top: 0.4rem;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .verb-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            min-width: 700px;
+        }
+
+        .verb-table th {
+            text-align: left;
+            padding: 1rem 1rem;
+            background: #f5fafd;
+            color: #1c577c;
+            border-bottom: 2px solid #cee2ef;
+            font-weight: 600;
+        }
+
+        .verb-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #e2edf5;
+            vertical-align: middle;
+        }
+
+        .verb-table tr:hover td {
+            background-color: #fafeff;
+        }
+
+        .form-with-audio {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .form-text {
+            font-weight: 500;
+        }
+
+        .audio-icon {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 30px;
+            color: #2c6b8f;
+        }
+
+        .audio-icon:hover {
+            background: #e2edf5;
+        }
+
+        .meaning-cell {
+            font-size: 0.85rem;
+            color: #2c6b4c;
+            line-height: 1.35;
+        }
+
+        .footnote {
+            background: #eef3f7;
+            border-radius: 1.5rem;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 700px) {
+            body { padding: 1rem; }
+            .verb-table th, .verb-table td { padding: 0.6rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="master-container">
+    <div class="hero">
+        <h1>📘 Irregular Verbs · Complete Reference</h1>
+        <div class="sub">All 97 verbs grouped by pattern · pronunciation + audio · click speaker to listen</div>
+    </div>
+
+    <div class="flashcard-btn-container">
+        <a href="flashcards.html" class="btn-flashcard">🎴 Go to Flashcards Game →</a>
+    </div>
+
+    <div class="groups-grid" id="verbGroupsContainer"></div>
+
+    <div class="footnote">
+        🔗 <strong>Prefix power</strong> — verbs like <em>understand</em> follow <em>stand</em>; <em>foretell</em> follows <em>tell</em>.<br>
+        🎧 Pronunciation guides are approximate (standard British/American blend). TTS voice depends on your browser.
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // COMPLETE VERB DATA with PRONUNCIATIONS for INFINITIVE, PAST, PAST PARTICIPLE
+    // --------------------------------------------------------------
+    const verbsData = [
+        // GROUP 1: all identical
+        { inf: "bet", past: "bet", pp: "bet", meaning: "to risk money; to be certain", pronInf: "/bɛt/", pronPast: "/bɛt/", pronPP: "/bɛt/" },
+        { inf: "burst", past: "burst", pp: "burst", meaning: "to break open suddenly", pronInf: "/bɜːrst/", pronPast: "/bɜːrst/", pronPP: "/bɜːrst/" },
+        { inf: "cost", past: "cost", pp: "cost", meaning: "to require payment", pronInf: "/kɒst/", pronPast: "/kɒst/", pronPP: "/kɒst/" },
+        { inf: "cut", past: "cut", pp: "cut", meaning: "to divide with a tool", pronInf: "/kʌt/", pronPast: "/kʌt/", pronPP: "/kʌt/" },
+        { inf: "hit", past: "hit", pp: "hit", meaning: "to strike; to affect", pronInf: "/hɪt/", pronPast: "/hɪt/", pronPP: "/hɪt/" },
+        { inf: "hurt", past: "hurt", pp: "hurt", meaning: "to cause pain", pronInf: "/hɜːrt/", pronPast: "/hɜːrt/", pronPP: "/hɜːrt/" },
+        { inf: "let", past: "let", pp: "let", meaning: "to allow; to rent", pronInf: "/lɛt/", pronPast: "/lɛt/", pronPP: "/lɛt/" },
+        { inf: "put", past: "put", pp: "put", meaning: "to place", pronInf: "/pʊt/", pronPast: "/pʊt/", pronPP: "/pʊt/" },
+        { inf: "read", past: "read", pp: "read", meaning: "to interpret written words", pronInf: "/riːd/", pronPast: "/rɛd/", pronPP: "/rɛd/" },
+        { inf: "set", past: "set", pp: "set", meaning: "to put in place", pronInf: "/sɛt/", pronPast: "/sɛt/", pronPP: "/sɛt/" },
+        { inf: "shut", past: "shut", pp: "shut", meaning: "to close firmly", pronInf: "/ʃʌt/", pronPast: "/ʃʌt/", pronPP: "/ʃʌt/" },
+        // GROUP 2: only simple past changes
+        { inf: "beat", past: "beat", pp: "beaten", meaning: "to strike repeatedly; defeat", pronInf: "/biːt/", pronPast: "/biːt/", pronPP: "/ˈbiːtən/" },
+        // GROUP 3: only PP changes (PP = infinitive)
+        { inf: "come", past: "came", pp: "come", meaning: "to move toward; arrive", pronInf: "/kʌm/", pronPast: "/keɪm/", pronPP: "/kʌm/" },
+        { inf: "run", past: "ran", pp: "run", meaning: "to move swiftly", pronInf: "/rʌn/", pronPast: "/ræn/", pronPP: "/rʌn/" },
+        { inf: "become", past: "became", pp: "become", meaning: "to turn into", pronInf: "/bɪˈkʌm/", pronPast: "/bɪˈkeɪm/", pronPP: "/bɪˈkʌm/" },
+        // GROUP 4: past = PP
+        { inf: "bring", past: "brought", pp: "brought", meaning: "to carry", pronInf: "/brɪŋ/", pronPast: "/brɔːt/", pronPP: "/brɔːt/" },
+        { inf: "build", past: "built", pp: "built", meaning: "to construct", pronInf: "/bɪld/", pronPast: "/bɪlt/", pronPP: "/bɪlt/" },
+        { inf: "buy", past: "bought", pp: "bought", meaning: "to purchase", pronInf: "/baɪ/", pronPast: "/bɔːt/", pronPP: "/bɔːt/" },
+        { inf: "catch", past: "caught", pp: "caught", meaning: "to capture", pronInf: "/kætʃ/", pronPast: "/kɔːt/", pronPP: "/kɔːt/" },
+        { inf: "deal", past: "dealt", pp: "dealt", meaning: "to distribute; handle", pronInf: "/diːl/", pronPast: "/dɛlt/", pronPP: "/dɛlt/" },
+        { inf: "feed", past: "fed", pp: "fed", meaning: "to give food", pronInf: "/fiːd/", pronPast: "/fɛd/", pronPP: "/fɛd/" },
+        { inf: "feel", past: "felt", pp: "felt", meaning: "to experience touch/emotion", pronInf: "/fiːl/", pronPast: "/fɛlt/", pronPP: "/fɛlt/" },
+        { inf: "fight", past: "fought", pp: "fought", meaning: "to struggle", pronInf: "/faɪt/", pronPast: "/fɔːt/", pronPP: "/fɔːt/" },
+        { inf: "find", past: "found", pp: "found", meaning: "to discover", pronInf: "/faɪnd/", pronPast: "/faʊnd/", pronPP: "/faʊnd/" },
+        { inf: "get", past: "got", pp: "got", meaning: "to obtain", pronInf: "/ɡɛt/", pronPast: "/ɡɒt/", pronPP: "/ɡɒt/" },
+        { inf: "hang", past: "hung", pp: "hung", meaning: "to suspend", pronInf: "/hæŋ/", pronPast: "/hʌŋ/", pronPP: "/hʌŋ/" },
+        { inf: "have", past: "had", pp: "had", meaning: "to possess", pronInf: "/hæv/", pronPast: "/hæd/", pronPP: "/hæd/" },
+        { inf: "hear", past: "heard", pp: "heard", meaning: "to perceive sound", pronInf: "/hɪər/", pronPast: "/hɜːd/", pronPP: "/hɜːd/" },
+        { inf: "hold", past: "held", pp: "held", meaning: "to grasp", pronInf: "/hoʊld/", pronPast: "/hɛld/", pronPP: "/hɛld/" },
+        { inf: "keep", past: "kept", pp: "kept", meaning: "to retain", pronInf: "/kiːp/", pronPast: "/kɛpt/", pronPP: "/kɛpt/" },
+        { inf: "lay", past: "laid", pp: "laid", meaning: "to put down", pronInf: "/leɪ/", pronPast: "/leɪd/", pronPP: "/leɪd/" },
+        { inf: "lead", past: "led", pp: "led", meaning: "to guide", pronInf: "/liːd/", pronPast: "/lɛd/", pronPP: "/lɛd/" },
+        { inf: "leave", past: "left", pp: "left", meaning: "to depart", pronInf: "/liːv/", pronPast: "/lɛft/", pronPP: "/lɛft/" },
+        { inf: "lend", past: "lent", pp: "lent", meaning: "to give temporarily", pronInf: "/lɛnd/", pronPast: "/lɛnt/", pronPP: "/lɛnt/" },
+        { inf: "light", past: "lit", pp: "lit", meaning: "to ignite", pronInf: "/laɪt/", pronPast: "/lɪt/", pronPP: "/lɪt/" },
+        { inf: "lose", past: "lost", pp: "lost", meaning: "to misplace", pronInf: "/luːz/", pronPast: "/lɒst/", pronPP: "/lɒst/" },
+        { inf: "make", past: "made", pp: "made", meaning: "to create", pronInf: "/meɪk/", pronPast: "/meɪd/", pronPP: "/meɪd/" },
+        { inf: "mean", past: "meant", pp: "meant", meaning: "to signify", pronInf: "/miːn/", pronPast: "/mɛnt/", pronPP: "/mɛnt/" },
+        { inf: "meet", past: "met", pp: "met", meaning: "to encounter", pronInf: "/miːt/", pronPast: "/mɛt/", pronPP: "/mɛt/" },
+        { inf: "pay", past: "paid", pp: "paid", meaning: "to give money", pronInf: "/peɪ/", pronPast: "/peɪd/", pronPP: "/peɪd/" },
+        { inf: "say", past: "said", pp: "said", meaning: "to speak", pronInf: "/seɪ/", pronPast: "/sɛd/", pronPP: "/sɛd/" },
+        { inf: "sell", past: "sold", pp: "sold", meaning: "to exchange for money", pronInf: "/sɛl/", pronPast: "/soʊld/", pronPP: "/soʊld/" },
+        { inf: "send", past: "sent", pp: "sent", meaning: "to cause to go", pronInf: "/sɛnd/", pronPast: "/sɛnt/", pronPP: "/sɛnt/" },
+        { inf: "shine", past: "shone", pp: "shone", meaning: "to emit light", pronInf: "/ʃaɪn/", pronPast: "/ʃɒn/", pronPP: "/ʃɒn/" },
+        { inf: "shoot", past: "shot", pp: "shot", meaning: "to fire a weapon", pronInf: "/ʃuːt/", pronPast: "/ʃɒt/", pronPP: "/ʃɒt/" },
+        { inf: "sit", past: "sat", pp: "sat", meaning: "to be seated", pronInf: "/sɪt/", pronPast: "/sæt/", pronPP: "/sæt/" },
+        { inf: "sleep", past: "slept", pp: "slept", meaning: "to rest", pronInf: "/sliːp/", pronPast: "/slɛpt/", pronPP: "/slɛpt/" },
+        { inf: "slide", past: "slid", pp: "slid", meaning: "to move smoothly", pronInf: "/slaɪd/", pronPast: "/slɪd/", pronPP: "/slɪd/" },
+        { inf: "spend", past: "spent", pp: "spent", meaning: "to use money/time", pronInf: "/spɛnd/", pronPast: "/spɛnt/", pronPP: "/spɛnt/" },
+        { inf: "stand", past: "stood", pp: "stood", meaning: "to be upright", pronInf: "/stænd/", pronPast: "/stʊd/", pronPP: "/stʊd/" },
+        { inf: "stick", past: "stuck", pp: "stuck", meaning: "to attach", pronInf: "/stɪk/", pronPast: "/stʌk/", pronPP: "/stʌk/" },
+        { inf: "sweep", past: "swept", pp: "swept", meaning: "to clean with broom", pronInf: "/swiːp/", pronPast: "/swɛpt/", pronPP: "/swɛpt/" },
+        { inf: "swing", past: "swung", pp: "swung", meaning: "to move back/forth", pronInf: "/swɪŋ/", pronPast: "/swʌŋ/", pronPP: "/swʌŋ/" },
+        { inf: "teach", past: "taught", pp: "taught", meaning: "to instruct", pronInf: "/tiːtʃ/", pronPast: "/tɔːt/", pronPP: "/tɔːt/" },
+        { inf: "tell", past: "told", pp: "told", meaning: "to narrate", pronInf: "/tɛl/", pronPast: "/toʊld/", pronPP: "/toʊld/" },
+        { inf: "think", past: "thought", pp: "thought", meaning: "to have a thought", pronInf: "/θɪŋk/", pronPast: "/θɔːt/", pronPP: "/θɔːt/" },
+        { inf: "understand", past: "understood", pp: "understood", meaning: "to comprehend", pronInf: "/ˌʌndərˈstænd/", pronPast: "/ˌʌndərˈstʊd/", pronPP: "/ˌʌndərˈstʊd/" },
+        { inf: "win", past: "won", pp: "won", meaning: "to be victorious", pronInf: "/wɪn/", pronPast: "/wʌn/", pronPP: "/wʌn/" },
+        // GROUP 5: all different
+        { inf: "be", past: "was/were", pp: "been", meaning: "to exist", pronInf: "/biː/", pronPast: "/wɒz/ /wɜːr/", pronPP: "/biːn/" },
+        { inf: "begin", past: "began", pp: "begun", meaning: "to start", pronInf: "/bɪˈɡɪn/", pronPast: "/bɪˈɡæn/", pronPP: "/bɪˈɡʌn/" },
+        { inf: "blow", past: "blew", pp: "blown", meaning: "to move air", pronInf: "/bloʊ/", pronPast: "/bluː/", pronPP: "/bloʊn/" },
+        { inf: "break", past: "broke", pp: "broken", meaning: "to separate", pronInf: "/breɪk/", pronPast: "/broʊk/", pronPP: "/ˈbroʊkən/" },
+        { inf: "choose", past: "chose", pp: "chosen", meaning: "to select", pronInf: "/tʃuːz/", pronPast: "/tʃoʊz/", pronPP: "/ˈtʃoʊzən/" },
+        { inf: "do", past: "did", pp: "done", meaning: "to perform", pronInf: "/duː/", pronPast: "/dɪd/", pronPP: "/dʌn/" },
+        { inf: "draw", past: "drew", pp: "drawn", meaning: "to sketch; pull", pronInf: "/drɔː/", pronPast: "/druː/", pronPP: "/drɔːn/" },
+        { inf: "drink", past: "drank", pp: "drunk", meaning: "to swallow liquid", pronInf: "/drɪŋk/", pronPast: "/dræŋk/", pronPP: "/drʌŋk/" },
+        { inf: "drive", past: "drove", pp: "driven", meaning: "to operate vehicle", pronInf: "/draɪv/", pronPast: "/droʊv/", pronPP: "/ˈdrɪvən/" },
+        { inf: "eat", past: "ate", pp: "eaten", meaning: "to consume food", pronInf: "/iːt/", pronPast: "/eɪt/", pronPP: "/ˈiːtən/" },
+        { inf: "fall", past: "fell", pp: "fallen", meaning: "to drop down", pronInf: "/fɔːl/", pronPast: "/fɛl/", pronPP: "/ˈfɔːlən/" },
+        { inf: "fly", past: "flew", pp: "flown", meaning: "to move through air", pronInf: "/flaɪ/", pronPast: "/fluː/", pronPP: "/floʊn/" },
+        { inf: "forget", past: "forgot", pp: "forgotten", meaning: "to fail to remember", pronInf: "/fərˈɡɛt/", pronPast: "/fərˈɡɒt/", pronPP: "/fərˈɡɒtən/" },
+        { inf: "freeze", past: "froze", pp: "frozen", meaning: "to turn to ice", pronInf: "/friːz/", pronPast: "/froʊz/", pronPP: "/ˈfroʊzən/" },
+        { inf: "give", past: "gave", pp: "given", meaning: "to hand over", pronInf: "/ɡɪv/", pronPast: "/ɡeɪv/", pronPP: "/ˈɡɪvən/" },
+        { inf: "go", past: "went", pp: "gone", meaning: "to move", pronInf: "/ɡoʊ/", pronPast: "/wɛnt/", pronPP: "/ɡɒn/" },
+        { inf: "grow", past: "grew", pp: "grown", meaning: "to increase size", pronInf: "/ɡroʊ/", pronPast: "/ɡruː/", pronPP: "/ɡroʊn/" },
+        { inf: "hide", past: "hid", pp: "hidden", meaning: "to conceal", pronInf: "/haɪd/", pronPast: "/hɪd/", pronPP: "/ˈhɪdən/" },
+        { inf: "know", past: "knew", pp: "known", meaning: "to have knowledge", pronInf: "/noʊ/", pronPast: "/njuː/", pronPP: "/noʊn/" },
+        { inf: "lie", past: "lay", pp: "lain", meaning: "to recline", pronInf: "/laɪ/", pronPast: "/leɪ/", pronPP: "/leɪn/" },
+        { inf: "ride", past: "rode", pp: "ridden", meaning: "to sit on (bike/horse)", pronInf: "/raɪd/", pronPast: "/roʊd/", pronPP: "/ˈrɪdən/" },
+        { inf: "ring", past: "rang", pp: "rung", meaning: "to sound a bell", pronInf: "/rɪŋ/", pronPast: "/ræŋ/", pronPP: "/rʌŋ/" },
+        { inf: "rise", past: "rose", pp: "risen", meaning: "to go upward", pronInf: "/raɪz/", pronPast: "/roʊz/", pronPP: "/ˈrɪzən/" },
+        { inf: "see", past: "saw", pp: "seen", meaning: "to perceive with eyes", pronInf: "/siː/", pronPast: "/sɔː/", pronPP: "/siːn/" },
+        { inf: "shake", past: "shook", pp: "shaken", meaning: "to tremble", pronInf: "/ʃeɪk/", pronPast: "/ʃʊk/", pronPP: "/ˈʃeɪkən/" },
+        { inf: "show", past: "showed", pp: "shown", meaning: "to display", pronInf: "/ʃoʊ/", pronPast: "/ʃoʊd/", pronPP: "/ʃoʊn/" },
+        { inf: "sing", past: "sang", pp: "sung", meaning: "to produce music", pronInf: "/sɪŋ/", pronPast: "/sæŋ/", pronPP: "/sʌŋ/" },
+        { inf: "sink", past: "sank", pp: "sunk", meaning: "to go down", pronInf: "/sɪŋk/", pronPast: "/sæŋk/", pronPP: "/sʌŋk/" },
+        { inf: "speak", past: "spoke", pp: "spoken", meaning: "to talk", pronInf: "/spiːk/", pronPast: "/spoʊk/", pronPP: "/ˈspoʊkən/" },
+        { inf: "spring", past: "sprang", pp: "sprung", meaning: "to jump", pronInf: "/sprɪŋ/", pronPast: "/spræŋ/", pronPP: "/sprʌŋ/" },
+        { inf: "steal", past: "stole", pp: "stolen", meaning: "to take dishonestly", pronInf: "/stiːl/", pronPast: "/stoʊl/", pronPP: "/ˈstoʊlən/" },
+        { inf: "swim", past: "swam", pp: "swum", meaning: "to move in water", pronInf: "/swɪm/", pronPast: "/swæm/", pronPP: "/swʌm/" },
+        { inf: "take", past: "took", pp: "taken", meaning: "to grab", pronInf: "/teɪk/", pronPast: "/tʊk/", pronPP: "/ˈteɪkən/" },
+        { inf: "tear", past: "tore", pp: "torn", meaning: "to rip", pronInf: "/tɛr/", pronPast: "/tɔːr/", pronPP: "/tɔːrn/" },
+        { inf: "throw", past: "threw", pp: "thrown", meaning: "to propel", pronInf: "/θroʊ/", pronPast: "/θruː/", pronPP: "/θroʊn/" },
+        { inf: "wake", past: "woke", pp: "woken", meaning: "to stop sleeping", pronInf: "/weɪk/", pronPast: "/woʊk/", pronPP: "/ˈwoʊkən/" },
+        { inf: "wear", past: "wore", pp: "worn", meaning: "to have clothing", pronInf: "/wɛr/", pronPast: "/wɔːr/", pronPP: "/wɔːrn/" },
+        { inf: "weave", past: "wove", pp: "woven", meaning: "to interlace", pronInf: "/wiːv/", pronPast: "/woʊv/", pronPP: "/ˈwoʊvən/" },
+        { inf: "write", past: "wrote", pp: "written", meaning: "to inscribe", pronInf: "/raɪt/", pronPast: "/roʊt/", pronPP: "/ˈrɪtən/" }
+    ];
+
+    // Group definitions (start, end indices)
+    const groups = [
+        { name: "📌 GROUP 1 · All forms identical", desc: "Infinitive = Simple Past = Past Participle", start: 0, end: 11 },
+        { name: "⚡ GROUP 2 · Only Simple Past changes", desc: "beat → beat → beaten", start: 11, end: 12 },
+        { name: "🔄 GROUP 3 · Only Past Participle changes", desc: "Past participle returns to infinitive", start: 12, end: 15 },
+        { name: "🔗 GROUP 4 · Past = Past Participle", desc: "Most common pattern (47 verbs)", start: 15, end: 62 },
+        { name: "🎭 GROUP 5 · All three forms different", desc: "All forms distinct (35 verbs)", start: 62, end: 97 }
+    ];
+
+    function speak(word) {
+        if (!window.speechSynthesis) return;
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.85;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function generateTableHTML() {
+        const container = document.getElementById('verbGroupsContainer');
+        container.innerHTML = '';
+        for (let g of groups) {
+            const groupVerbs = verbsData.slice(g.start, g.end);
+            if (!groupVerbs.length) continue;
+            let html = `<div class="group-card">
+                <div class="group-header">
+                    <h2>${escapeHtml(g.name)}</h2>
+                    <div class="group-desc">${escapeHtml(g.desc)}</div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="verb-table">
+                        <thead>
+                            <tr><th>Infinitive</th><th>Simple Past</th><th>Past Participle</th><th>Meaning</th></tr>
+                        </thead>
+                        <tbody>`;
+            for (let v of groupVerbs) {
+                const infBtn = `<button class="audio-icon" title="${escapeHtml(v.pronInf)}" data-word="${escapeHtml(v.inf)}">🔊</button>`;
+                const pastBtn = `<button class="audio-icon" title="${escapeHtml(v.pronPast)}" data-word="${escapeHtml(v.past)}">🔊</button>`;
+                const ppBtn = `<button class="audio-icon" title="${escapeHtml(v.pronPP)}" data-word="${escapeHtml(v.pp)}">🔊</button>`;
+                html += `<tr>
+                    <td><div class="form-with-audio"><span class="form-text">${escapeHtml(v.inf)}</span> ${infBtn}</div></td>
+                    <td><div class="form-with-audio"><span class="form-text">${escapeHtml(v.past)}</span> ${pastBtn}</div></td>
+                    <td><div class="form-with-audio"><span class="form-text">${escapeHtml(v.pp)}</span> ${ppBtn}</div></td>
+                    <td class="meaning-cell">${escapeHtml(v.meaning)}</td>
+                </tr>`;
+            }
+            html += `</tbody></table></div></div>`;
+            container.insertAdjacentHTML('beforeend', html);
+        }
+        // attach audio listeners
+        document.querySelectorAll('.audio-icon').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const word = btn.getAttribute('data-word');
+                if (word) speak(word);
+            });
+        });
+    }
+
+    generateTableHTML();
+</script>
+</body>
+</html>
