@@ -95,7 +95,7 @@
             background: #fffef7;
             border-radius: 2rem;
             box-shadow: 0 30px 35px -15px rgba(0,0,0,0.4);
-            min-height: 380px;
+            min-height: 350px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -186,6 +186,7 @@
         }
 
         .answer-buttons {
+            width: 100%;
             display: flex;
             justify-content: center;
             gap: 1rem;
@@ -303,6 +304,9 @@
         <button class="btn-secondary" id="resetProgressBtn">🗑️ Reset all</button>
     </div>
     <div class="due-counter" id="dueMessage"></div>
+    <footer>
+        <p style="text-align:center; font-size:0.75rem; color:#8aaec0; margin-top: 10px;">Created by NCC for MVC | Data source: englisch-hilfen.de</p>
+    </footer>
 </div>
 
 <script>
@@ -536,7 +540,7 @@
         const levelNames = ['🟡 Level 0 (new)', '🟢 Level 1 (learning)', '🔵 Level 2 (mastered)'];
         levelBadge.innerText = levelNames[card.level];
         setFlipState(false);
-        answerButtons.style.display = 'block';
+        answerButtons.style.display = 'flex';
         dueMessageDiv.innerText = `📚 Session: ${queueIndex+1} / ${sessionQueue.length} cards`;
     }
 

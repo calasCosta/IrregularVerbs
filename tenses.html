@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12 Verb Tenses in English · Complete Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e9eef5 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1rem;
+            color: #1a2c3e;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* header */
+        .hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e4663, #2b6c94);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            color: #2c5a7a;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* overview table */
+        .overview {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        .overview table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 500px;
+        }
+
+        .overview th, .overview td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #e2edf5;
+        }
+
+        .overview th {
+            background: #f5fafd;
+            color: #1c577c;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .overview td:first-child {
+            font-weight: 700;
+            background: #f9fdfe;
+            color: #1f4e6e;
+        }
+
+        /* tense cards grid */
+        .tense-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .tense-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .tense-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 28px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            background: linear-gradient(105deg, #eef4fa, #ffffff);
+            padding: 1rem 1.2rem;
+            border-bottom: 3px solid #cde3f0;
+        }
+
+        .card-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f4e6e;
+            display: inline-block;
+            background: #eef2fa;
+            padding: 0.2rem 0;
+            border-radius: 40px;
+        }
+
+        .card-header .example-sentence {
+            font-size: 1rem;
+            color: #2c6b8f;
+            margin-top: 0.5rem;
+            font-family: monospace;
+        }
+
+        .card-body {
+            padding: 1.2rem;
+        }
+
+        .form-section {
+            background: #f8fbfe;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-section h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #3c6e8f;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-table {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .form-row strong {
+            min-width: 70px;
+            color: #1f5e8c;
+        }
+
+        .usage {
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px dashed #cde3f0;
+        }
+
+        .usage p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #2c5a6e;
+            margin-bottom: 0.5rem;
+        }
+
+        .examples {
+            background: #fef7e0;
+            padding: 0.6rem 0.8rem;
+            border-radius: 0.8rem;
+            font-size: 0.85rem;
+            color: #7a5c2c;
+        }
+
+        .quiz-section {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .quiz-section h2 {
+            font-size: 1.8rem;
+            color: #1f4e6e;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-question {
+            background: #f9fbfd;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-question p {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        .quiz-options label {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .quiz-submit {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .quiz-results {
+            margin-top: 1rem;
+            font-weight: 600;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            background: #eef3f7;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #6c8ea0;
+        }
+
+        @media (max-width: 750px) {
+            .tense-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <h1>📖 12 Verb Tenses in English</h1>
+        <p>Complete reference with forms, usage & examples</p>
+    </div>
+
+    <!-- overview matrix -->
+    <div class="overview">
+        <table>
+            <thead>
+                <tr><th></th><th>Present</th><th>Past</th><th>Future</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Simple</td><td>It rains</td><td>It rained</td><td>It will rain</td></tr>
+                <tr><td>Continuous</td><td>It is raining</td><td>It was raining</td><td>It will be raining</td></tr>
+                <tr><td>Perfect</td><td>It has rained</td><td>It had rained</td><td>It will have rained</td></tr>
+                <tr><td>Perfect Continuous</td><td>It has been raining</td><td>It had been raining</td><td>It will have been raining</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- tense cards dynamically generated -->
+    <div class="tense-grid" id="tenseGrid"></div>
+
+    <!-- quiz section -->
+    <div class="quiz-section" id="quizSection">
+        <h2>📝 Quick Quiz</h2>
+        <div id="quizQuestions"></div>
+        <button class="quiz-submit" id="submitQuiz">Check Answers</button>
+        <div id="quizResults" class="quiz-results" style="display: none;"></div>
+    </div>
+
+    <footer>
+        <p>Created by NCC for MVC</p>
+        <p>Based on "12 Verb Tenses in English" — practice makes perfect!</p>
+    </footer>
+</div>
+
+<script>
+    // Data for all 12 tenses (order: Simple Present, Past Simple, Future Simple, Present Continuous, Past Continuous, Future Continuous,
+    // Present Perfect, Past Perfect, Future Perfect, Present Perfect Continuous, Past Perfect Continuous, Future Perfect Continuous)
+    const tensesData = [
+        {
+            name: "Present Simple",
+            example: "It rains",
+            positive: "It rains",
+            negative: "It doesn't rain",
+            question: "Does it rain?",
+            usage: "Used for routines, habits, general facts, and things that happen normally.",
+            examples: [
+                "I get up at 7 o'clock every day.",
+                "Water freezes at 0°C.",
+                "She plays the violin."
+            ]
+        },
+        {
+            name: "Past Simple",
+            example: "It rained",
+            positive: "It rained",
+            negative: "It didn't rain",
+            question: "Did it rain?",
+            usage: "Used for actions completed at a specific moment in the past.",
+            examples: [
+                "I studied French at school.",
+                "He put the wine on the table.",
+                "We came back from holiday on Friday."
+            ]
+        },
+        {
+            name: "Future Simple",
+            example: "It will rain",
+            positive: "It will rain",
+            negative: "It won't rain",
+            question: "Will it rain?",
+            usage: "Decisions made at the moment of speaking, promises, predictions.",
+            examples: [
+                "I will get it.",
+                "I think you will enjoy the film!",
+                "The show will start in 5 minutes."
+            ]
+        },
+        {
+            name: "Present Continuous",
+            example: "It is raining",
+            positive: "It is raining",
+            negative: "It is not raining",
+            question: "Is it raining?",
+            usage: "Actions happening right now, temporary situations, developing actions.",
+            examples: [
+                "I'm teaching English right now.",
+                "The sun is shining.",
+                "A tropical storm is approaching."
+            ]
+        },
+        {
+            name: "Past Continuous",
+            example: "It was raining",
+            positive: "It was raining",
+            negative: "It wasn't raining",
+            question: "Was it raining?",
+            usage: "Continuous action in the past, often interrupted by a shorter action.",
+            examples: [
+                "I was reading when the phone rang.",
+                "She was working when I got home.",
+                "The kids were playing while I was working."
+            ]
+        },
+        {
+            name: "Future Continuous",
+            example: "It will be raining",
+            positive: "It will be raining",
+            negative: "It won't be raining",
+            question: "Will it be raining?",
+            usage: "Continuous actions that will be in progress at a specific future moment.",
+            examples: [
+                "I'll be sleeping when you come back.",
+                "She will be travelling this summer.",
+                "You'll be learning about perfect tenses in 2 minutes."
+            ]
+        },
+        {
+            name: "Present Perfect",
+            example: "It has rained",
+            positive: "It has rained",
+            negative: "It hasn't rained",
+            question: "Has it rained?",
+            usage: "Actions in an unfinished time period, or past actions with present relevance.",
+            examples: [
+                "I have spoken to him three times today.",
+                "I've lost my sunglasses. Can I borrow yours?",
+                "She has never tried sushi."
+            ]
+        },
+        {
+            name: "Past Perfect",
+            example: "It had rained",
+            positive: "It had rained",
+            negative: "It hadn't rained",
+            question: "Had it rained?",
+            usage: "The earlier action when two past events are mentioned.",
+            examples: [
+                "I had heard the news before you told me.",
+                "She had eaten a packet of biscuits just before lunch.",
+                "We had finished cleaning before we left."
+            ]
+        },
+        {
+            name: "Future Perfect",
+            example: "It will have rained",
+            positive: "It will have rained",
+            negative: "It won't have rained",
+            question: "Will it have rained?",
+            usage: "An action that will be completed before another future action.",
+            examples: [
+                "By the time he wakes up, Santa will have brought presents.",
+                "He will have made dinner when they get home.",
+                "I will have graduated university when I turn 26."
+            ]
+        },
+        {
+            name: "Present Perfect Continuous",
+            example: "It has been raining",
+            positive: "It has been raining",
+            negative: "It hasn't been raining",
+            question: "Has it been raining?",
+            usage: "Continuous actions that started in the past and are still happening now.",
+            examples: [
+                "I have been working with you for 3 months.",
+                "They've been building their house for years.",
+                "I've been craving chocolate cake for days!"
+            ]
+        },
+        {
+            name: "Past Perfect Continuous",
+            example: "It had been raining",
+            positive: "It had been raining",
+            negative: "It hadn't been raining",
+            question: "Had it been raining?",
+            usage: "Continuous action that finished before another past action.",
+            examples: [
+                "I'd been looking for a job for months before I started my business.",
+                "She had been feeling sick, so she saw a doctor.",
+                "He had been travelling before he started at that company."
+            ]
+        },
+        {
+            name: "Future Perfect Continuous",
+            example: "It will have been raining",
+            positive: "It will have been raining",
+            negative: "It won't have been raining",
+            question: "Will it have been raining?",
+            usage: "Duration of a continuous action up to a certain point in the future.",
+            examples: [
+                "In 2030 I will have been working here for 15 years.",
+                "You will have been cooking for 3 hours when I come back.",
+                "We'll be tired; we'll have been travelling all day."
+            ]
+        }
+    ];
+
+    function buildTenseCards() {
+        const grid = document.getElementById('tenseGrid');
+        grid.innerHTML = '';
+        for (let tense of tensesData) {
+            const card = document.createElement('div');
+            card.className = 'tense-card';
+            card.innerHTML = `
+                <div class="card-header">
+                    <h2>${tense.name}</h2>
+                    <div class="example-sentence">${tense.example}</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-section">
+                        <h3>🔹 Form</h3>
+                        <div class="form-table">
+                            <div class="form-row"><strong>Positive:</strong> ${tense.positive}</div>
+                            <div class="form-row"><strong>Negative:</strong> ${tense.negative}</div>
+                            <div class="form-row"><strong>Question:</strong> ${tense.question}</div>
+                        </div>
+                    </div>
+                    <div class="usage">
+                        <p>📖 <strong>Use:</strong> ${tense.usage}</p>
+                        <div class="examples">
+                            <strong>✏️ Examples:</strong><br>
+                            ${tense.examples.map(ex => `• ${ex}`).join('<br>')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        }
+    }
+
+    // Quiz data from PDF (questions 1-6)
+    const quizQuestions = [
+        {
+            text: "1. ________ when you called.",
+            options: ["I slept", "I was sleeping", "I had been sleeping"],
+            correct: 1  // "I was sleeping"
+        },
+        {
+            text: "2. When we reached the station, the train ________.",
+            options: ["left", "had been leaving", "had left"],
+            correct: 2  // "had left"
+        },
+        {
+            text: "3. You can watch TV at 8pm. We ________ dinner by then.",
+            options: ["will finish", "will have finished", "will have been finishing"],
+            correct: 1  // "will have finished"
+        },
+        {
+            text: "4. ________ in Hong Kong before she moved to Germany.",
+            options: ["She had been living", "She has been living", "She will be living"],
+            correct: 0  // "She had been living"
+        },
+        {
+            text: "5. Do you think you ________ at the same company next year?",
+            options: ["will be working", "will have worked", "will have been working"],
+            correct: 0  // "will be working"
+        },
+        {
+            text: "6. They ________ each other every day since they met.",
+            options: ["texted", "will have been texting", "have texted"],
+            correct: 2  // "have texted"
+        }
+    ];
+
+    function buildQuiz() {
+        const quizContainer = document.getElementById('quizQuestions');
+        let html = '';
+        quizQuestions.forEach((q, idx) => {
+            html += `
+                <div class="quiz-question" data-qidx="${idx}">
+                    <p>${q.text}</p>
+                    <div class="quiz-options">
+                        ${q.options.map((opt, optIdx) => `
+                            <label>
+                                <input type="radio" name="q${idx}" value="${optIdx}">
+                                ${opt}
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        });
+        quizContainer.innerHTML = html;
+    }
+
+    function gradeQuiz() {
+        let score = 0;
+        for (let i = 0; i < quizQuestions.length; i++) {
+            const selected = document.querySelector(`input[name="q${i}"]:checked`);
+            if (selected && parseInt(selected.value) === quizQuestions[i].correct) {
+                score++;
+            }
+        }
+        const resultsDiv = document.getElementById('quizResults');
+        resultsDiv.style.display = 'block';
+        resultsDiv.innerHTML = `${score >= 4 ? '✅' : '❌'} You got ${score} out of ${quizQuestions.length} correct. ${score === quizQuestions.length ? 'Perfect! 🎉' : 'Review the tenses and try again.'}`;
+    }
+
+    buildTenseCards();
+    buildQuiz();
+
+    document.getElementById('submitQuiz').addEventListener('click', gradeQuiz);
+</script>
+</body>
+</html>
