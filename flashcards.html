@@ -440,7 +440,6 @@
     const ppAudioBtn = document.getElementById('ppAudioBtn');
     const correctBtn = document.getElementById('correctBtn');
     const wrongBtn = document.getElementById('wrongBtn');
-    const flipBtn = document.getElementById('flipBtn');
     const nextSessionBtn = document.getElementById('nextSessionBtn');
     const resetBtn = document.getElementById('resetProgressBtn');
     const sizeBtns = document.querySelectorAll('.size-btn');
@@ -628,7 +627,6 @@
     }
 
     // Event listeners
-    flipBtn.addEventListener('click', flipCard);
     flashcardDiv.addEventListener('click', (e) => {
         if (e.target.closest('.audio-icon')) return;
         flipCard();
